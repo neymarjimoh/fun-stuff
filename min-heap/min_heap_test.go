@@ -38,3 +38,35 @@ func TestPushMinHeap(t *testing.T) {
 		});
 	}
 }
+
+func TestPollMinHeap(t *testing.T) {
+	testCases := map[string]struct {
+		input []int
+	}{
+		"given an array poll out root node": {
+			[]int{6, 5, 4, 8, 9, 10, 13, 12, 11, 7},
+		},
+		"given an empty array return an empty array": {
+			[]int{},
+		},
+		"given an array with one element, poll out the element": {
+			[]int{3},
+		},
+	}
+
+	for name, tc := range testCases {
+		var heap = NewMinHeap();
+
+		t.Run(name, func(t *testing.T) {
+			t.Parallel();
+			for _, v := range tc.input {
+				heap.Push(v);
+			}
+			for _, v := range heap.data {
+				if val, ok := heap.Poll(); val != v && ok {
+					t.Errorf("expected %v, got %v", val, v);
+				}
+			}
+		});
+	}
+}
