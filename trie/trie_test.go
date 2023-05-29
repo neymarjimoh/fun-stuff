@@ -75,13 +75,14 @@ func TestTrie_SpellCheck(t *testing.T) {
 	trie := NewTrieNode()
 
 	trie.Insert("apple")
+	trie.Insert("apply")
 	trie.Insert("banana")
 	trie.Insert("cherry")
 	trie.Insert("grape")
 	trie.Insert("melon")
 
-	misspelled := "appel"
-	expectedSuggestions := []string{"apple"}
+	misspelled := "app"
+	expectedSuggestions := []string{"apple", "apply"}
 	suggestions := trie.SpellCheck(misspelled)
 
 	// Assert the suggestions
