@@ -7,7 +7,7 @@ import (
 
 func TestPushMinHeap(t *testing.T) {
 	testCases := map[string]struct {
-		input []int
+		input    []int
 		expected []int
 	}{
 		"given an array return the heapified array": {
@@ -23,19 +23,19 @@ func TestPushMinHeap(t *testing.T) {
 			[]int{3},
 		},
 	}
-	
+
 	for name, tc := range testCases {
-		var heap = NewMinHeap();
+		var heap = NewMinHeap()
 
 		t.Run(name, func(t *testing.T) {
-			t.Parallel();
+			t.Parallel()
 			for _, v := range tc.input {
-				heap.Push(v);
+				heap.Push(v)
 			}
 			if !reflect.DeepEqual(heap.data, tc.expected) {
-				t.Errorf("expected %v got %v", tc.expected, heap.data);
+				t.Errorf("expected %v got %v", tc.expected, heap.data)
 			}
-		});
+		})
 	}
 }
 
@@ -55,18 +55,18 @@ func TestPollMinHeap(t *testing.T) {
 	}
 
 	for name, tc := range testCases {
-		var heap = NewMinHeap();
+		var heap = NewMinHeap()
 
 		t.Run(name, func(t *testing.T) {
-			t.Parallel();
+			t.Parallel()
 			for _, v := range tc.input {
-				heap.Push(v);
+				heap.Push(v)
 			}
 			for _, v := range heap.data {
 				if val, ok := heap.Poll(); val != v && ok {
-					t.Errorf("expected %v, got %v", val, v);
+					t.Errorf("expected %v, got %v", val, v)
 				}
 			}
-		});
+		})
 	}
 }
