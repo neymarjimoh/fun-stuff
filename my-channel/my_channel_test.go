@@ -16,3 +16,22 @@ func TestChannel(t *testing.T) {
 	fmt.Printf("received ch1 value: %v\n", value)
 	ch1.Close()
 }
+
+func TestUnidirectionalChannel(t *testing.T) {
+	ch := MakeChannel(WithCapacity(3))
+	sendOnlyCh := SendOnlyChannel{ch: ch}
+	receiveOnlyCh := ReceiveOnlyChannel{ch: ch, isReadOnly: true}
+
+	for i := 1; i <= 5; i++ {
+		sendOnlyCh.Send(i)
+	}
+
+	val, err := receiveOnlyCh.Receive()
+	if err != nil {
+		println("Error:", err)
+	} else {
+		println("Received:", val.(int))
+	}
+
+	sendOnlyCh.Close()
+}

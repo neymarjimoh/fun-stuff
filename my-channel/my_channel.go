@@ -14,6 +14,17 @@ type Channel struct {
 	closed   bool
 }
 
+// SendOnlyChannel is a send-only version of the channel.
+type SendOnlyChannel struct {
+	ch *Channel
+}
+
+// ReceiveOnlyChannel is a receive-only version of the custom channel.
+type ReceiveOnlyChannel struct {
+	ch         *Channel
+	isReadOnly bool
+}
+
 type Option func(ch *Channel)
 
 func WithCapacity(capacity int) Option {
@@ -38,7 +49,25 @@ func MakeChannel(opts ...Option) *Channel {
 	return ch
 }
 
-// Sends data to the channel.
+// Sends a value to the channel
+func (c SendOnlyChannel) Send(data interface{}) error {
+	return c.ch.Send(data)
+}
+
+// Close the channel
+func (c SendOnlyChannel) Close() {
+	c.ch.Close()
+}
+
+// Receives a value from the channel
+func (c ReceiveOnlyChannel) Receive() (interface{}, error) {
+	if !c.isReadOnly {
+		return nil, errors.New("cannot receive from a read-only channel")
+	}
+	return c.ch.Receive()
+}
+
+// Sends data to the channel
 func (ch *Channel) Send(data interface{}) error {
 	ch.mu.Lock()
 	defer ch.mu.Unlock()
