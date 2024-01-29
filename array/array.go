@@ -3,9 +3,9 @@ package array
 const indexOutOfBoundsError = "index out of bounds"
 
 type Array struct {
-	data     []int
-	size     int
-	capacity int
+	data          []int
+	size          int
+	capacity      int
 	isCapacitySet bool
 }
 
@@ -21,8 +21,8 @@ func WithCapacity(capacity int) Option {
 // NewArray creates a new instance of the Array type with an initial capacity set to 1.
 func NewArray(opts ...Option) *Array {
 	a := &Array{
-		data: make([]int, 0),
-		size: 0,
+		data:          make([]int, 0),
+		size:          0,
 		isCapacitySet: false,
 		// capacity: 16,
 	}
@@ -59,7 +59,6 @@ func (a *Array) At(index int) int {
 func (a *Array) IsFull() bool {
 	return a.size == a.capacity
 }
-
 
 func (a *Array) Push(item int) {
 	a.Insert(a.GetSize(), item)
